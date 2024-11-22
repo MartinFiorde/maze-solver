@@ -7,10 +7,3 @@ class Line:
         
     def draw(self, canvas: Canvas, fill_color):
         canvas.create_line(self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2)
-        
-    def wait_for_close(self):
-        if self.running:
-            self.redraw()
-            
-    def close(self):
-        self.running = False
