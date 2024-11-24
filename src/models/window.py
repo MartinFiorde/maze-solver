@@ -1,6 +1,5 @@
 from tkinter import Tk, BOTH, Canvas
 from src.models.line import Line
-from src.models.cell import Cell
 
 
 class Window:
@@ -9,7 +8,7 @@ class Window:
         self.__root.title("Maze solver")
         self.canvas = Canvas(self.__root, width=width, height=height)
         self.canvas.pack(fill=BOTH, expand=True)
-        self.running = True
+        self.__running = False
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
 
     def redraw(self):
@@ -17,14 +16,12 @@ class Window:
         self.__root.update()
 
     def wait_for_close(self):
-        while self.running:
+        self.__running = True
+        while self.__running:
             self.redraw()
 
     def close(self):
-        self.running = False
+        self.__running = False
 
-    def draw_line(self, line: Line, fill_collor):
+    def draw_line(self, line: Line, fill_collor="black"):
         line.draw(self.canvas, fill_collor)
-
-    def draw_cell(self, cell: Cell, fill_collor):
-        cell.draw(self.canvas, fill_collor)
