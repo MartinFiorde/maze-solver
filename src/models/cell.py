@@ -14,6 +14,7 @@ class Cell:
         self.has_right_wall = rw
         self.has_bottom_wall = bw
         self.has_left_wall = lw
+        self.visited = False
 
     def draw(self):
         self._win.draw_line(
