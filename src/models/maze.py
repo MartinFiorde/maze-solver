@@ -19,12 +19,13 @@ class Maze:
         self._create_cells()
 
     def _create_cells(self):
-        self._cells = [[None for _ in range(self.num_cols)] for _ in range(self.num_rows)]
-        for i in range(self.num_rows):
-            for j in range(self.num_cols):
+        self._cells = [[None for _ in range(self.num_rows)] for _ in range(self.num_cols)]
+        for i in range(self.num_cols):
+            for j in range(self.num_rows):
                 self._draw_cell(i, j)
 
     def _draw_cell(self, i, j):
+        if self.win == None: return
         cell = Cell(
                         self.win,
                         (i + 1) * self.cell_size_x,
