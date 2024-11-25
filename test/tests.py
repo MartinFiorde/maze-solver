@@ -25,3 +25,11 @@ class Tests(unittest.TestCase):
         exit: Cell = maze._cells[-1][-1]
         self.assertFalse(entrance.has_top_wall)
         self.assertFalse(exit.has_bottom_wall)
+        
+    def test_maze__reset_cells_visited(self):
+        num_cols = 12
+        num_rows = 10
+        maze = Maze(None, 0, 0, num_rows, num_cols, 10, 10)
+        for row in maze._cells:
+            for cell in row:
+                self.assertFalse(cell.visited)
