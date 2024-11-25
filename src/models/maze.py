@@ -71,15 +71,7 @@ class Maze:
         cell: Cell = self._cells[i][j]
         cell.visited = True
         while True:
-            to_visit = []
-            if i != 0 and not self._cells[i - 1][j].visited:
-                to_visit.append((-1, 0))
-            if j != 0 and not self._cells[i][j - 1].visited:
-                to_visit.append((0, -1))
-            if i != (self.num_cols - 1) and not self._cells[i + 1][j].visited:
-                to_visit.append((1, 0))
-            if j != (self.num_rows - 1) and not self._cells[i][j + 1].visited:
-                to_visit.append((0, 1))
+            to_visit = self._get_to_visit_builder(i, j)
             if len(to_visit) == 0:
                 if self.win != None:
                     cell.draw()
@@ -102,8 +94,64 @@ class Maze:
                 self._cells[i + m][j + n].has_top_wall = False
 
             self._break_walls_r(i + m, j + n)
-            
+
     def _reset_cells_visited(self):
         for row in self._cells:
             for cell in row:
                 cell.visited = False
+
+    def solve(self, seed=None):
+        if seed != None:
+            random.seed(seed)
+        return self.solve_r(0, 0)
+
+    def solve_r(self, i, j):
+        if i == (self.num_cols - 1) and j == (self.num_rows - 1):
+            return True
+        cell: Cell = self._cells[i][j]
+        cell.visited = True
+        while True:
+            to_visit = self._get_to_visit_solver(cell, i, j)
+            if len(to_visit) == 0:
+                return False
+            idx_random = random.randint(0, len(to_visit) - 1)
+            m, n = to_visit.pop(idx_random)
+            cell.draw_move(self._cells[i + m][j + n])
+            self._animate()
+
+            is_done = self.solve_r(i + m, j + n)
+            if is_done:
+                if self.win != None:
+                    cell.draw_move(self._cells[i + m][j + n])
+                    self._animate()
+                return True
+            else:
+                if self.win != None:
+                    cell.draw_move(self._cells[i + m][j + n], True)
+                    self._animate()
+
+
+    def _get_to_visit_builder(self, i, j):
+        to_visit = []
+        if i != 0 and not self._cells[i - 1][j].visited:
+            to_visit.append((-1, 0))
+        if j != 0 and not self._cells[i][j - 1].visited:
+            to_visit.append((0, -1))
+        if i != (self.num_cols - 1) and not self._cells[i + 1][j].visited:
+            to_visit.append((1, 0))
+        if j != (self.num_rows - 1) and not self._cells[i][j + 1].visited:
+            to_visit.append((0, 1))
+        return to_visit
+    
+    def _get_to_visit_solver(self, cell: Cell, i, j):
+        to_visit = []
+        if i != 0 and not cell.has_left_wall and not self._cells[i - 1][j].visited:
+            to_visit.append((-1, 0))
+        if j != 0 and not cell.has_top_wall and not self._cells[i][j - 1].visited:
+            to_visit.append((0, -1))
+        if i != (self.num_cols - 1) and not cell.has_right_wall and not self._cells[i + 1][j].visited:
+            to_visit.append((1, 0))
+        if j != (self.num_rows - 1) and not cell.has_bottom_wall and not self._cells[i][j + 1].visited:
+            to_visit.append((0, 1))
+        return to_visit
+    
