@@ -19,19 +19,19 @@ class Cell:
     def draw(self):
         self._win.draw_line(
             Line(Point(self._x1, self._y1), Point(self._x2, self._y1)),
-            "black" if self.has_top_wall else "#d9d9d9",
+            "black" if self.has_top_wall else "white",
         )
         self._win.draw_line(
             Line(Point(self._x2, self._y1), Point(self._x2, self._y2)),
-            "black" if self.has_right_wall else "#d9d9d9",
+            "black" if self.has_right_wall else "white",
         )
         self._win.draw_line(
             Line(Point(self._x1, self._y2), Point(self._x2, self._y2)),
-            "black" if self.has_bottom_wall else "#d9d9d9",
+            "black" if self.has_bottom_wall else "white",
         )
         self._win.draw_line(
             Line(Point(self._x1, self._y1), Point(self._x1, self._y2)),
-            "black" if self.has_left_wall else "#d9d9d9",
+            "black" if self.has_left_wall else "white",
         )
 
     def draw_move(self, to_cell: "Cell", undo=False):
