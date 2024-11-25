@@ -6,14 +6,14 @@ from src.models.point import Point
 class Cell:
     def __init__(self, win: Window, x1, y1, x2, y2, tw=True, rw=True, bw=True, lw=True):
         self._win = win
-        self.has_top_wall = tw
-        self.has_right_wall = rw
-        self.has_bottom_wall = bw
-        self.has_left_wall = lw
         self._x1 = x1
         self._y1 = y1
         self._x2 = x2
         self._y2 = y2
+        self.has_top_wall = tw
+        self.has_right_wall = rw
+        self.has_bottom_wall = bw
+        self.has_left_wall = lw
 
     def draw(self):
         if self.has_top_wall:
